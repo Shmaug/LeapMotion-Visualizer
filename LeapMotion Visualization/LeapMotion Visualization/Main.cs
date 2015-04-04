@@ -201,7 +201,7 @@ namespace LeapMotion_Visualization
 
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            shadedEffect.Parameters["lightDir"].SetValue(camera.rotation / MathHelper.TwoPi);
+            shadedEffect.Parameters["lightDir"].SetValue(camera.rotation / -MathHelper.TwoPi);
 
             handRenderer.Render(GraphicsDevice, camera, simpleEffect);
             gestureRenderer.Render(GraphicsDevice, camera, simpleEffect);
