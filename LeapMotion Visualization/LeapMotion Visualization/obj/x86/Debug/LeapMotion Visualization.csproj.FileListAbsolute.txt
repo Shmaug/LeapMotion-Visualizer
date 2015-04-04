@@ -5,3 +5,12 @@ c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\Le
 c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.exe
 c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.pdb
 c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapMotion Visualization.exe
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapMotion Visualization.pdb
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapCSharp.NET4.0.dll
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.exe
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.pdb
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Simple.xnb
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fonts\debug.xnb
