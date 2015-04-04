@@ -1,0 +1,7 @@
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapMotion Visualization.exe
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapMotion Visualization.pdb
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.csprojResolveAssemblyReference.cache
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.exe
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.pdb
+c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\LeapCSharp.NET4.0.dll

@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeapMotion Visualization", "LeapMotion Visualization\LeapMotion Visualization\LeapMotion Visualization.csproj", "{A45E8FD2-D050-44F7-8D0B-648D0E3C4B58}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "LeapMotion VisualizationContent", "LeapMotion Visualization\LeapMotion VisualizationContent\LeapMotion VisualizationContent.contentproj", "{83E2685B-A902-4DA5-BE9E-86FEA4799ED6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A45E8FD2-D050-44F7-8D0B-648D0E3C4B58}.Debug|x86.ActiveCfg = Debug|x86
+		{A45E8FD2-D050-44F7-8D0B-648D0E3C4B58}.Debug|x86.Build.0 = Debug|x86
+		{A45E8FD2-D050-44F7-8D0B-648D0E3C4B58}.Release|x86.ActiveCfg = Release|x86
+		{A45E8FD2-D050-44F7-8D0B-648D0E3C4B58}.Release|x86.Build.0 = Release|x86
+		{83E2685B-A902-4DA5-BE9E-86FEA4799ED6}.Debug|x86.ActiveCfg = Debug|x86
+		{83E2685B-A902-4DA5-BE9E-86FEA4799ED6}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
