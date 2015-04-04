@@ -1,2 +1,3 @@
 Content\fx\Simple.xnb
 Content\fonts\debug.xnb
+Content\fbx\Box.xnb

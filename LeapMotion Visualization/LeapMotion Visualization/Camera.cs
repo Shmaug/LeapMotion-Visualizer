@@ -11,6 +11,7 @@ namespace LeapMotion_Visualization
     {
         public Vector3 position;
         public Vector3 rotation;
+        public Vector3 offset;
 
         public Matrix world;
 
@@ -18,7 +19,7 @@ namespace LeapMotion_Visualization
         {
             get
             {
-                return Matrix.CreateTranslation(position) *
+                return Matrix.CreateTranslation(position + offset) *
                     Matrix.CreateRotationX(rotation.X) *
                     Matrix.CreateRotationY(rotation.Y) *
                     Matrix.CreateRotationZ(rotation.Z);
@@ -46,7 +47,7 @@ namespace LeapMotion_Visualization
 
         public void refreshProjection(Vector2 screen)
         {
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f), screen.X / screen.Y, .1f, 1000f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(50f), screen.X / screen.Y, .1f, 1000f);
         }
 
         public Camera(Vector2 screen)
@@ -54,7 +55,7 @@ namespace LeapMotion_Visualization
             world = Matrix.Identity;
             position = Vector3.Zero;
             rotation = Vector3.Zero;
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f), screen.X / screen.Y, .1f, 1000f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(50f), screen.X / screen.Y, .1f, 1000f);
         }
     }
 }

@@ -14,6 +14,9 @@ namespace LeapMotion_Visualization
 
         private VertexPositionColor[] lineVerticies;
 
+        private Model model;
+        private Matrix modelWorld = Matrix.Identity;
+
         public Renderer(GraphicsDevice device)
         {
             verticies = new VertexPositionColor[0];
@@ -37,9 +40,29 @@ namespace LeapMotion_Visualization
             lineVerticies = verts;
         }
 
+        public void setModel(Model m)
+        {
+            model = m;
+        }
+
+        public void setModelWorld(Matrix world)
+        {
+        }
+
         public void Render(GraphicsDevice device, Camera camera, Effect effect)
         {
-            effect.Parameters["WVP"].SetValue(camera.view * camera.projection * camera.world);
+            if (effect is BasicEffect)
+            {
+                BasicEffect e = effect as BasicEffect;
+                e.World = camera.world;
+                e.Projection = camera.projection;
+                e.View = camera.view;
+                e.LightingEnabled = true;
+            }
+            else
+            {
+                effect.Parameters["WVP"].SetValue(camera.view * camera.projection * camera.world);
+            }
             if (verticies.Length != 0)
             {
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
@@ -55,6 +78,14 @@ namespace LeapMotion_Visualization
                 {
                     pass.Apply();
                     device.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, lineVerticies, 0, lineVerticies.Length / 2);
+                }
+            }
+            if (model != null)
+            {
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    model.Draw(modelWorld, camera.view, camera.projection);
                 }
             }
         }
