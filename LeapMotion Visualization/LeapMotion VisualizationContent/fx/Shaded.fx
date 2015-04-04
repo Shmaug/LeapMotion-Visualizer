@@ -1,7 +1,7 @@
 float4x4 W;
 float4x4 VP;
 float3 lightDir = float3(1,0,0);
-float4 ambient = float4(.5,.5,.5,1);
+float4 ambient = float4(.25,.25,.25,1);
 
 struct VertexShaderInput
 {

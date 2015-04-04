@@ -17,8 +17,11 @@ namespace LeapMotion_Visualization
         public CameraMode mode;
         public Vector3 position;
         public Vector3 rotation;
+        public Vector3 angularVelocity;
+
         public Vector3 offset;
         public float zoom = 10f;
+        public float zoomVelocity = 0f;
 
         public Matrix world;
 
@@ -100,6 +103,37 @@ namespace LeapMotion_Visualization
             position = Vector3.Zero;
             rotation = Vector3.Zero;
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(50f), screen.X / screen.Y, .1f, 1000f);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            this.rotation += this.angularVelocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            this.zoom += this.zoomVelocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            this.angularVelocity *= .5f;
+            this.zoomVelocity *= .5f;
+
+            this.rotation.X = MathHelper.Clamp(this.rotation.X, -MathHelper.Pi / 2, MathHelper.Pi / 2);
+            if (this.rotation.X < -MathHelper.Pi / 2)
+            {
+                this.rotation.X = -MathHelper.Pi / 2;
+                this.angularVelocity.X = 0f;
+            }
+            else if (this.rotation.X > MathHelper.PiOver2)
+            {
+                this.rotation.X = MathHelper.Pi / 2;
+                this.angularVelocity.X = 0f;
+            }
+
+            if (zoom > 30)
+            {
+                zoom = 30;
+                zoomVelocity = 0;
+            }
+            else if (zoom < 5)
+            {
+                zoom = 5;
+                zoomVelocity = 0;
+            }
         }
     }
 }

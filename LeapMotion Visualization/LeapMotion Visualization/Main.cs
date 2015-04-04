@@ -26,6 +26,7 @@ namespace LeapMotion_Visualization
         Renderer gestureRenderer;
         Renderer miscRenderer;
         public Camera camera;
+        public Camera handCamera;
 
         Effect simpleEffect;
         Effect shadedEffect;
@@ -84,6 +85,9 @@ namespace LeapMotion_Visualization
             camera.position = new Vector3(0, 0, 10);
             camera.offset = new Vector3(0, 1, 0);
             camera.mode = CameraMode.Orbit;
+            handCamera = new Camera(new Vector2(screenWidth, screenHeight));
+            handCamera.mode = CameraMode.FirstPerson;
+            handCamera.position = new Vector3(0, 1, 10);
             handRenderer = new Renderer();
             gestureRenderer = new Renderer();
             miscRenderer = new Renderer();
@@ -117,6 +121,9 @@ namespace LeapMotion_Visualization
 
         protected override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
+
             #region mouselook
             MouseState ms = Mouse.GetState();
             if (ms.LeftButton == ButtonState.Pressed)
@@ -133,40 +140,44 @@ namespace LeapMotion_Visualization
             foreach (Hand hand in frame.Hands)
             {
                 Debug.addWatch(hand.Confidence, "confidence");
-                Debug.addWatch(hand.GrabStrength, "grabstrength");
+                Debug.addWatch(hand.GrabStrength, "grab");
+                Debug.addWatch(hand.PinchStrength, "pinch");
 
-                if (frame.Hands.Count == 1 && frame.Hands[0].GrabStrength == 0)
+                if (hand.Confidence > .1f)
                 {
-                    // panning
-                    Hand h = frame.Hands[0];
-                    Vector3 speed = Util.toWorldNoTransform(h.PalmVelocity);
-
-                    camera.rotation.X -= (speed.Z / camera.zoom) / camera.zoom;
-                    camera.rotation.Y -= (speed.X / camera.zoom) / camera.zoom;
-                }
-                else if (frame.Hands.Count == 2 && lastFrame.Hands.Count == 2)
-                {
-                    // zooming
-                    Hand lh = frame.Hands[0].IsLeft ? frame.Hands[0] : frame.Hands[1];
-                    Hand rh = frame.Hands[1].IsLeft ? frame.Hands[0] : frame.Hands[1];
-                    Hand llh = lastFrame.Hands[0].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
-                    Hand lrh = lastFrame.Hands[1].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
-                    if (lh.GrabStrength == 0 && rh.GrabStrength == 0 && llh.GrabStrength == 0 && lrh.GrabStrength == 0)
+                    if (frame.Hands.Count == 1)
                     {
-                        float curDist = Vector3.Distance(Util.toWorldNoTransform(lh.StabilizedPalmPosition), Util.toWorldNoTransform(rh.StabilizedPalmPosition));
-                        float prevDist = Vector3.Distance(Util.toWorldNoTransform(llh.StabilizedPalmPosition), Util.toWorldNoTransform(lrh.StabilizedPalmPosition));
+                        if (hand.GrabStrength == 0)
+                        {
+                            // panning
+                            Vector3 speed = Util.toWorldNoTransform(hand.PalmVelocity);
 
-                        float delta = curDist - prevDist;
+                            camera.angularVelocity.X = -(speed.Z / camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            camera.angularVelocity.Y = -(speed.X / camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                    }
+                    else if (frame.Hands.Count == 2 && lastFrame.Hands.Count == 2)
+                    {
+                        // zooming
+                        Hand lh = frame.Hands[0].IsLeft ? frame.Hands[0] : frame.Hands[1];
+                        Hand rh = frame.Hands[1].IsLeft ? frame.Hands[0] : frame.Hands[1];
+                        Hand llh = lastFrame.Hands[0].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
+                        Hand lrh = lastFrame.Hands[1].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
+                        if (lh.GrabStrength == 0 && rh.GrabStrength == 0 && llh.GrabStrength == 0 && lrh.GrabStrength == 0)
+                        {
+                            float curDist = Vector3.Distance(Util.toWorldNoTransform(lh.StabilizedPalmPosition), Util.toWorldNoTransform(rh.StabilizedPalmPosition));
+                            float prevDist = Vector3.Distance(Util.toWorldNoTransform(llh.StabilizedPalmPosition), Util.toWorldNoTransform(lrh.StabilizedPalmPosition));
 
-                        camera.zoom -= delta;
-                        camera.zoom = MathHelper.Clamp(camera.zoom, 1, 30);
+                            float delta = curDist - prevDist;
+                            delta *= 10;
+
+                            camera.zoomVelocity = -delta / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
                     }
                 }
             }
 
             handRenderer.setLineVerticies(Util.visualizeHands(frame));
-
-            MovableObject.Update(gameTime, frame);
 
             #region gesture processing
             List<VertexPositionColor> verts = new List<VertexPositionColor>();
@@ -192,6 +203,9 @@ namespace LeapMotion_Visualization
             }
             gestureRenderer.setLineVerticies(verts.ToArray());
             #endregion
+
+            MovableObject.Update(gameTime, frame);
+            camera.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -203,7 +217,7 @@ namespace LeapMotion_Visualization
 
             shadedEffect.Parameters["lightDir"].SetValue(camera.rotation / -MathHelper.TwoPi);
 
-            handRenderer.Render(GraphicsDevice, camera, simpleEffect);
+            handRenderer.Render(GraphicsDevice, handCamera, simpleEffect);
             gestureRenderer.Render(GraphicsDevice, camera, simpleEffect);
             MovableObject.Draw(GraphicsDevice, camera, shadedEffect);
             miscRenderer.Render(GraphicsDevice, camera, shadedEffect);
