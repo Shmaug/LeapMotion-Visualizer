@@ -8,7 +8,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Simple.xnb</Output>
-      <Time>2015-04-04T02:39:35.6234061-07:00</Time>
+      <Time>2015-04-04T09:04:11.3735011-07:00</Time>
     </Item>
     <Item>
       <Source>fonts\debug.spritefont</Source>
@@ -38,6 +38,55 @@
       <Options>IntermediateFile, DontCacheImportedData</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\Box_0.xml</Output>
       <Time>2015-04-04T06:45:00.3131476-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fbx\Ring.fbx</Source>
+      <Name>fbx\Ring</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\Ring.xnb</Output>
+      <Time>2015-04-04T09:15:03.0773621-07:00</Time>
+      <Dependency>
+        <Key>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\Ring_0.xml</Key>
+        <Value>2015-04-04T09:15:04.5834252-07:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>fbx\Ring.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\Ring_0.xml</Output>
+      <Time>2015-04-04T09:15:03.0773621-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fbx\leapmotion.fbx</Source>
+      <Name>fbx\leapmotion</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\leapmotion.xnb</Output>
+      <Time>2015-04-04T09:11:53.3772494-07:00</Time>
+      <Dependency>
+        <Key>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\leapmotion_0.xml</Key>
+        <Value>2015-04-04T09:11:53.8885996-07:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>fbx\leapmotion.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\leapmotion_0.xml</Output>
+      <Time>2015-04-04T09:11:53.3772494-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fx\Shaded.fx</Source>
+      <Name>fx\Shaded</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Shaded.xnb</Output>
+      <Time>2015-04-04T09:04:09.4061072-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

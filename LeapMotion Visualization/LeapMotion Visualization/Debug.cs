@@ -19,7 +19,7 @@ namespace LeapMotion_Visualization
 
         public static void print(object o)
         {
-            for (int i = 9; i > 0; i--)
+            for (int i = 9; i >= 0; i--)
             {
                 if (i == 0)
                     log[i] = o;
