@@ -15,14 +15,13 @@ namespace LeapMotion_Visualization
             this.controller = new Controller();
 
             this.controller.EnableGesture(Gesture.GestureType.TYPE_CIRCLE);
-            this.controller.Config.SetFloat("Gesture.Circle.MinRadius", 40.0f);
             this.controller.EnableGesture(Gesture.GestureType.TYPE_SWIPE);
             this.controller.EnableGesture(Gesture.GestureType.TYPE_SCREEN_TAP);
         }
 
-        public Frame getFrame()
+        public Frame getFrame(int id = 0)
         {
-            Frame frame = controller.Frame();
+            Frame frame = controller.Frame(id);
             return frame;
         }
     }

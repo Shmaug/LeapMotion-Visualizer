@@ -14,3 +14,4 @@ C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\L
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\LeapMotion Visualization.pdb
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Simple.xnb
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fonts\debug.xnb
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\Box.xnb

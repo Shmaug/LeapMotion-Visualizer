@@ -24,11 +24,14 @@ namespace LeapMotion_Visualization
 
         Renderer handRenderer;
         Renderer gestureRenderer;
+        Renderer sceneRenderer;
         Camera camera;
 
         Effect simpleEffect;
+        BasicEffect basicEffect;
         SpriteFont debugFont;
         Texture2D pixelTexture;
+        Model cube;
 
         System.Windows.Forms.Form form;
 
@@ -71,9 +74,10 @@ namespace LeapMotion_Visualization
         {
             leapInput = new LeapHandler();
             camera = new Camera(new Vector2(screenWidth, screenHeight));
-            camera.position = Vector3.Forward * 5f;
+            camera.position = new Vector3(0, 1, -10);
             handRenderer = new Renderer(GraphicsDevice);
             gestureRenderer = new Renderer(GraphicsDevice);
+            sceneRenderer = new Renderer(GraphicsDevice);
 
             base.Initialize();
         }
@@ -81,10 +85,13 @@ namespace LeapMotion_Visualization
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            basicEffect = new BasicEffect(GraphicsDevice);
             simpleEffect = Content.Load<Effect>("fx/Simple");
             debugFont = Content.Load<SpriteFont>("fonts/debug");
             pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             pixelTexture.SetData<Color>(new Color[] { Color.White });
+            cube = Content.Load<Model>("fbx/Box");
         }
 
         protected override void UnloadContent()
@@ -94,7 +101,7 @@ namespace LeapMotion_Visualization
 
         protected override void Update(GameTime gameTime)
         {
-            // look around
+            #region mouselook
             MouseState ms = Mouse.GetState();
             if (ms.LeftButton == ButtonState.Pressed)
             {
@@ -102,13 +109,24 @@ namespace LeapMotion_Visualization
                 camera.rotation.Y += (ms.X - lastms.X) * (float)gameTime.ElapsedGameTime.TotalSeconds * .25f;
             }
             lastms = ms;
+            #endregion
+
+            sceneRenderer.setModel(cube, Microsoft.Xna.Framework.Matrix.CreateTranslation(new Vector3(0,1,0)));
 
             Frame frame = leapInput.getFrame();
 
             handRenderer.setLineVerticies(Util.visualizeHands(frame));
 
+            #region hand input
+            if (frame.Hands.Count > 0)
+            {
+                camera.offset = Util.toV3(frame.Hands[0].StabilizedPalmPosition);
+            }
+            #endregion
+
+            #region gesture processing
             List<VertexPositionColor> verts = new List<VertexPositionColor>();
-            foreach (Gesture g in frame.Gestures())
+            foreach (Gesture g in frame.Gestures(leapInput.getFrame(10)))
             {
                 Debug.print(g.Type);
                 switch(g.Type)
@@ -133,7 +151,7 @@ namespace LeapMotion_Visualization
                 }
             }
             gestureRenderer.setLineVerticies(verts.ToArray());
-            
+            #endregion
             base.Update(gameTime);
         }
 
@@ -144,6 +162,7 @@ namespace LeapMotion_Visualization
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             handRenderer.Render(GraphicsDevice, camera, simpleEffect);
             gestureRenderer.Render(GraphicsDevice, camera, simpleEffect);
+            sceneRenderer.Render(GraphicsDevice, camera, basicEffect);
 
             spriteBatch.Begin();
             Debug.Draw(spriteBatch, debugFont);
