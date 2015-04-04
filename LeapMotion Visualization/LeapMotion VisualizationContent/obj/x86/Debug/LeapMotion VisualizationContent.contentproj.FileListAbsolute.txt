@@ -1,1 +1,2 @@
 c:\users\kevin\documents\visual studio 2012\Projects\LeapMotion Visualization\LeapMotion Visualization\LeapMotion VisualizationContent\obj\x86\Debug\LeapMotion VisualizationContent.contentprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion VisualizationContent\obj\x86\Debug\LeapMotion VisualizationContent.contentprojResolveAssemblyReference.cache
