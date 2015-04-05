@@ -13,6 +13,7 @@ namespace LeapMotion_Visualization.UI
         public Vector2 Offset;
         public UDim2()
         {
+
         }
         public UDim2(float x, float y, float offX, float offY)
         {
@@ -99,18 +100,18 @@ namespace LeapMotion_Visualization.UI
                         if (e is Button)
                         {
                             Button btn = e as Button;
-                            Rectangle r = new Rectangle((int)btn.Position.calc(sw, sh).X, (int)btn.Position.calc(sw, sh).Y, (int)btn.Size.calc(sw, sh).X + (int)btn.selOffset.X, (int)btn.Size.calc(sw, sh).Y + (int)btn.selOffset.Y);
+                            Rectangle r = new Rectangle((int)btn.Position.calc(sw, sh).X, (int)btn.Position.calc(sw, sh).Y, (int)btn.Size.calc(sw, sh).X + (int)btn.selOffset.X + (int)btn.selOffset.X, (int)btn.Size.calc(sw, sh).Y);
                             if (r.Contains(finger))
                             {
-                                btn.selOffset.Y = MathHelper.Lerp(btn.selOffset.Y, 50, .2f);
+                                btn.selOffset.X = MathHelper.Lerp(btn.selOffset.X, 50, .2f);
                                 if (currentPointer != null)
-                                    if (currentPointer.TipVelocity.y < -200 && finger.Y > r.Bottom - 40)
+                                    if (currentPointer.TipVelocity.x > 200 && finger.X > r.Right - 40)
                                         if (btn.onClick != null)
                                             btn.onClick.Invoke();
                             }
                             else
                             {
-                                btn.selOffset.Y = MathHelper.Lerp(btn.selOffset.Y, 0, .2f);
+                                btn.selOffset.X = MathHelper.Lerp(btn.selOffset.X, 0, .2f);
                             }
                         }
                         else if (e is RadioList)

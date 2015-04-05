@@ -13,11 +13,28 @@ namespace LeapMotion_Visualization
     {
         public static Vector3 toWorld(Vector vector, bool slideDown=true)
         {
-            return Vector3.Transform(new Vector3(vector.x, vector.y - (slideDown ? (50f * Main.handOffset) : 0), vector.z) / 50f, Main.main.camera.rotationMatrix);
+            return Vector3.Transform(new Vector3(vector.x, vector.y - (slideDown ? (50f * Main.handOffset) : 0), vector.z) / 50f, Main.main.world.camera.rotationMatrix);
         }
         public static Vector3 toWorldNoTransform(Vector vector)
         {
             return new Vector3(vector.x, vector.y, vector.z) / 50f;
+        }
+
+        public static float CubicPolate(float v0, float v1, float v2, float v3, float fracy)
+        {
+            float A = (v3 - v2) - (v0 - v1);
+            float B = (v0 - v1) - A;
+            float C = v2 - v0;
+            float D = v1;
+
+            return A * (float)Math.Pow(fracy, 3) + B * (float)Math.Pow(fracy, 2) + C * fracy + D;
+        }
+
+        public static float cosineInterpolation(float a, float b, float t)
+        {
+            float ft = t * MathHelper.Pi;
+            float f = (1 - (float)Math.Cos(ft)) * .5f;
+            return a * (1 - f) + b * f;
         }
 
         public static Vector3 QuaternionToEuler(Quaternion rotation)

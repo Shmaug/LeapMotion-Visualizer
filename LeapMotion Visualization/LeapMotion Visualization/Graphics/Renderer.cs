@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace LeapMotion_Visualization.Graphics
 {
-    class Renderer
+    public class Renderer
     {
         private VertexPositionColor[] verticies;
         private short[] indicies;
@@ -50,6 +50,10 @@ namespace LeapMotion_Visualization.Graphics
         public void setModel(Model m, Matrix w)
         {
             model = m;
+            modelWorld = w;
+        }
+        public void setModelWorld(Matrix w)
+        {
             modelWorld = w;
         }
 

@@ -8,7 +8,7 @@ using Leap;
 
 namespace LeapMotion_Visualization.Graphics
 {
-    class MovableObject
+    public class MovableObject
     {
         static List<MovableObject> objects = new List<MovableObject>();
 

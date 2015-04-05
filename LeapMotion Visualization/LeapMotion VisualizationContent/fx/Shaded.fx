@@ -39,7 +39,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 
 technique Technique1
 {
-    pass Pass1
+    pass Shaded
     {
         AlphaBlendEnable = FALSE;
         DestBlend = INVSRCALPHA;

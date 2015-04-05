@@ -32,9 +32,7 @@ namespace LeapMotion_Visualization
         LeapHandler leapInput;
 
         Renderer handRenderer;
-        Renderer gestureRenderer;
-        Renderer miscRenderer;
-        public Camera camera;
+        Renderer titleRenderer;
         public Camera handCamera;
 
         Effect simpleEffect;
@@ -44,8 +42,10 @@ namespace LeapMotion_Visualization
         SpriteFont debugFont;
         SpriteFont uiFont;
         public Texture2D pixelTexture;
-        Model cube;
         Model leapmodel;
+        Model titletext;
+        public Model icoVirusModel;
+        public Model comVirusModel;
 
         System.Windows.Forms.Form form;
 
@@ -56,6 +56,8 @@ namespace LeapMotion_Visualization
         public static Main main;
 
         float noiseDepth;
+
+        public Sim.World world;
 
         public Main()
         {
@@ -86,36 +88,37 @@ namespace LeapMotion_Visualization
             screenHeight = form.Height;
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
-            if (camera != null)
-                camera.refreshProjection(new Vector2(screenWidth, screenHeight));
+            if (world.camera != null)
+                world.camera.refreshProjection(new Vector2(screenWidth, screenHeight));
         }
 
         protected override void Initialize()
         {
             leapInput = new LeapHandler();
-            camera = new Camera(new Vector2(screenWidth, screenHeight));
-            camera.position = new Vector3(0, 0, 10);
-            camera.offset = new Vector3(0, 1, 0);
-            camera.mode = CameraMode.Orbit;
+            world = new Sim.World();
+            world.camera.position = new Vector3(0, 0, 10);
+            world.camera.offset = new Vector3(0, 0, 0);
+            world.camera.mode = CameraMode.Orbit;
             handCamera = new Camera(new Vector2(screenWidth, screenHeight));
             handCamera.mode = CameraMode.FirstPerson;
             handCamera.position = new Vector3(0, 1, 10);
             handRenderer = new Renderer();
-            gestureRenderer = new Renderer();
-            miscRenderer = new Renderer();
+            titleRenderer = new Renderer();
 
             gameState = GameState.MainMenu;
 
             #region UI
-            UI.Screen mainScreen = new UI.Screen(new UI.UDim2(0,0,0,0), new UI.UDim2(1,1,0,0));
-            UI.Button start = mainScreen.addButton(new UI.UDim2(.5f, 0, -300, 25), new UI.UDim2(0, 0, 200, 60), "Start");
-            UI.Button exit = mainScreen.addButton(new UI.UDim2(.5f, 0, 100, 25), new UI.UDim2(0, 0, 200, 60), "Exit");
+            UI.Screen mainScreen = new UI.Screen(new UI.UDim2(0, 0, 0, 0), new UI.UDim2(1, 1, 0, 0));
+            mainScreen.buttonColor = Color.SaddleBrown;
+            UI.Button start = mainScreen.addButton(new UI.UDim2(.5f, 1, -100, -300), new UI.UDim2(0, 0, 200, 60), "Start");
+            UI.Button exit = mainScreen.addButton(new UI.UDim2(.5f, 1, -100, -200), new UI.UDim2(0, 0, 200, 60), "Exit");
 
             UI.Screen constructionScreen = new UI.Screen(new UI.UDim2(0, 0, 0, 0), new UI.UDim2(1, 1, 0, 0), false);
-            UI.Button back = constructionScreen.addButton(new UI.UDim2(.5f, 1, -200, -200), new UI.UDim2(0, 0, 200, 60), "Back");
+            constructionScreen.buttonColor = Color.SaddleBrown;
+            UI.Button back = constructionScreen.addButton(new UI.UDim2(.5f, 1, -100, -150), new UI.UDim2(0, 0, 200, 60), "Back");
             UI.RadioList entrymethods = constructionScreen.addRadioList(new UI.UDim2(0, 0f, 20, 125), new UI.UDim2(0, 0, 200, 60), "Entry Method", new List<UI.RadioListElement>() {
                 new UI.RadioListElement(){name="Trojan Horse", detail="Target cell unknowingly absorbes virus"},
-                new UI.RadioListElement(){name="Injestion", detail="Target cell injests virus"},
+                new UI.RadioListElement(){name="Ingestion", detail="Target cell ingests virus"},
                 new UI.RadioListElement(){name="Injection",detail="Virus injects genetic material directly into target cell" }});
             UI.RadioList exitmethods = constructionScreen.addRadioList(new UI.UDim2(.5f, 0f, 0, 125), new UI.UDim2(0, 0, 200, 60), "Exit Method", new List<UI.RadioListElement>() {
                 new UI.RadioListElement(){name="Lysis", detail="Cell bursts and releases virus"},
@@ -125,7 +128,7 @@ namespace LeapMotion_Visualization
                 {
                     UI.RadioListElement el = entrymethods.items[2];
                     el.disabled = true;
-                    el.detail = "Not compatible with spherical shape!";
+                    el.detail = "Not compatible with injection!";
                     entrymethods.items[2] = el;
                 } },
                 new UI.RadioListElement(){name="Complex", detail="", onSelected = () => {
@@ -137,18 +140,26 @@ namespace LeapMotion_Visualization
             UI.RadioList type = constructionScreen.addRadioList(new UI.UDim2(0, 0f, 20, 425), new UI.UDim2(0, 0, 200, 60), "Type", new List<UI.RadioListElement>() {
                 new UI.RadioListElement(){name="RNA Hijack", detail="Injection of RNA to hijack nucleus"},
                 new UI.RadioListElement(){name="Lysogenic Cycle",detail="RNA fuses with DNA of cell" }});
-            UI.Button begin = constructionScreen.addButton(new UI.UDim2(.5f, 1, 100, -200), new UI.UDim2(0, 0, 200, 60), "Start");
+            UI.Button begin = constructionScreen.addButton(new UI.UDim2(.5f, 1, -100, -250), new UI.UDim2(0, 0, 200, 60), "Start");
+
             begin.onClick += () =>
             {
                 mainScreen.visible = false;
                 constructionScreen.visible = false;
                 gameState = GameState.InGame;
+
+                Sim.VirusShape vshape = shapes.selected == 0 ? Sim.VirusShape.Icosahedral : Sim.VirusShape.Complex;
+                Sim.EnterType entype = (Sim.EnterType)entrymethods.selected;
+                Sim.ExitType extype = (Sim.ExitType)exitmethods.selected;
+                Sim.VirusType vtype = (Sim.VirusType)type.selected;
+                Sim.Virus virus = new Sim.Virus(vtype, vshape, entype, extype, Vector3.Zero, world);
             };
 
             start.onClick += () =>
             {
                 mainScreen.visible = false;
                 constructionScreen.visible = true;
+                titleRenderer.setModel(null, Microsoft.Xna.Framework.Matrix.Identity);
             };
             exit.onClick += () =>
             {
@@ -158,6 +169,7 @@ namespace LeapMotion_Visualization
             {
                 mainScreen.visible = true;
                 constructionScreen.visible = false;
+                titleRenderer.setModel(titletext, Microsoft.Xna.Framework.Matrix.Identity);
             };
             #endregion
             base.Initialize();
@@ -175,8 +187,12 @@ namespace LeapMotion_Visualization
             uiFont = Content.Load<SpriteFont>("fonts/uifont");
             pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             pixelTexture.SetData<Color>(new Color[] { Color.White });
-            cube = Content.Load<Model>("fbx/Box");
             leapmodel = Content.Load<Model>("fbx/leapmotion");
+            titletext = Content.Load<Model>("fbx/protogen");
+            comVirusModel = Content.Load<Model>("fbx/ComVirus");
+            icoVirusModel = Content.Load<Model>("fbx/IcoVirus");
+
+            titleRenderer.setModel(titletext, Microsoft.Xna.Framework.Matrix.Identity);
         }
 
         protected override void UnloadContent()
@@ -196,85 +212,8 @@ namespace LeapMotion_Visualization
             {
                 case (GameState.InGame):
                     {
-                        #region mouselook
-                        MouseState ms = Mouse.GetState();
-                        if (ms.LeftButton == ButtonState.Pressed)
-                        {
-                            camera.rotation.X -= (ms.Y - lastms.Y) * (float)gameTime.ElapsedGameTime.TotalSeconds * .15f;
-                            camera.rotation.Y -= (ms.X - lastms.X) * (float)gameTime.ElapsedGameTime.TotalSeconds * .15f;
-                        }
-                        lastms = ms;
-                        #endregion
-
-                        foreach (Hand hand in frame.Hands)
-                        {
-                            Debug.addWatch(hand.Confidence, "confidence");
-                            Debug.addWatch(hand.GrabStrength, "grab");
-                            Debug.addWatch(hand.PinchStrength, "pinch");
-
-                            if (hand.Confidence > .1f)
-                            {
-                                if (frame.Hands.Count == 1)
-                                {
-                                    if (hand.GrabStrength == 0)
-                                    {
-                                        // panning
-                                        Vector3 speed = Util.toWorldNoTransform(hand.PalmVelocity);
-
-                                        camera.angularVelocity.X = -(speed.Z / camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                                        camera.angularVelocity.Y = -(speed.X / camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                                    }
-                                }
-                                else if (frame.Hands.Count == 2 && lastFrame.Hands.Count == 2)
-                                {
-                                    // zooming
-                                    Hand lh = frame.Hands[0].IsLeft ? frame.Hands[0] : frame.Hands[1];
-                                    Hand rh = frame.Hands[1].IsLeft ? frame.Hands[0] : frame.Hands[1];
-                                    Hand llh = lastFrame.Hands[0].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
-                                    Hand lrh = lastFrame.Hands[1].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
-                                    if (lh.GrabStrength == 0 && rh.GrabStrength == 0 && llh.GrabStrength == 0 && lrh.GrabStrength == 0)
-                                    {
-                                        float curDist = Vector3.Distance(Util.toWorldNoTransform(lh.StabilizedPalmPosition), Util.toWorldNoTransform(rh.StabilizedPalmPosition));
-                                        float prevDist = Vector3.Distance(Util.toWorldNoTransform(llh.StabilizedPalmPosition), Util.toWorldNoTransform(lrh.StabilizedPalmPosition));
-
-                                        float delta = curDist - prevDist;
-                                        delta *= 10;
-
-                                        camera.zoomVelocity = -delta / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                                    }
-                                }
-                            }
-                        }
-
+                        UpdateGame(frame, lastFrame, gameTime);
                         handRenderer.setLineVerticies(Util.visualizeHands(frame));
-
-                        #region gesture processing
-                        List<VertexPositionColor> verts = new List<VertexPositionColor>();
-                        foreach (Gesture g in frame.Gestures(leapInput.getFrame(10)))
-                        {
-                            switch (g.Type)
-                            {
-                                case (Gesture.GestureType.TYPE_SWIPE):
-                                    {
-                                        break;
-                                    }
-                                case (Gesture.GestureType.TYPE_CIRCLE):
-                                    {
-
-                                        break;
-                                    }
-                                case (Gesture.GestureType.TYPE_SCREEN_TAP):
-                                    {
-
-                                        break;
-                                    }
-                            }
-                        }
-                        gestureRenderer.setLineVerticies(verts.ToArray());
-                        #endregion
-
-                        MovableObject.Update(gameTime, frame);
-                        camera.Update(gameTime);
                         break;
                     }
                 case (GameState.Paused):
@@ -284,13 +223,100 @@ namespace LeapMotion_Visualization
                     }
                 case (GameState.MainMenu):
                     {
-                        noiseDepth += (float)gameTime.ElapsedGameTime.TotalSeconds / 2f;
+                        noiseDepth += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        float t = noiseDepth / 8 - (float)Math.Floor(noiseDepth / 8);
+                        t *= 2;
+                        if (t < 1)
+                            titleRenderer.setModelWorld(Microsoft.Xna.Framework.Matrix.CreateTranslation(0, 2f, 0) * Microsoft.Xna.Framework.Matrix.CreateRotationY(Util.cosineInterpolation(-MathHelper.PiOver4 / 4, MathHelper.PiOver4 / 4, t)));
+                        else
+                            titleRenderer.setModelWorld(Microsoft.Xna.Framework.Matrix.CreateTranslation(0, 2f, 0) * Microsoft.Xna.Framework.Matrix.CreateRotationY(Util.cosineInterpolation(MathHelper.PiOver4 / 4, -MathHelper.PiOver4 / 4, t - 1)));
+                        
                         break;
                     }
             }
             UI.Screen.Update(gameTime, frame);
 
             base.Update(gameTime);
+        }
+
+        private void UpdateGame(Frame frame, Frame lastFrame, GameTime gameTime)
+        {
+            foreach (Hand hand in frame.Hands)
+            {
+                Debug.addWatch(hand.Confidence, "confidence");
+                Debug.addWatch(hand.GrabStrength, "grab");
+                Debug.addWatch(hand.PinchStrength, "pinch");
+
+                if (hand.Confidence > .1f)
+                {
+                    if (frame.Hands.Count == 1)
+                    {
+                        if (hand.GrabStrength == 0)
+                        {
+                            // panning
+                            Vector3 speed = Util.toWorldNoTransform(hand.PalmVelocity);
+
+                            world.camera.angularVelocity.X = -(speed.Z / world.camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            world.camera.angularVelocity.Y = -(speed.X / world.camera.zoom) * .25f / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                    }
+                    else if (frame.Hands.Count == 2 && lastFrame.Hands.Count == 2)
+                    {
+                        // zooming
+                        Hand lh = frame.Hands[0].IsLeft ? frame.Hands[0] : frame.Hands[1];
+                        Hand rh = frame.Hands[1].IsLeft ? frame.Hands[0] : frame.Hands[1];
+                        Hand llh = lastFrame.Hands[0].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
+                        Hand lrh = lastFrame.Hands[1].IsLeft ? lastFrame.Hands[0] : lastFrame.Hands[1];
+                        if (lh.GrabStrength == 0 && rh.GrabStrength == 0 && llh.GrabStrength == 0 && lrh.GrabStrength == 0)
+                        {
+                            float curDist = Vector3.Distance(Util.toWorldNoTransform(lh.StabilizedPalmPosition), Util.toWorldNoTransform(rh.StabilizedPalmPosition));
+                            float prevDist = Vector3.Distance(Util.toWorldNoTransform(llh.StabilizedPalmPosition), Util.toWorldNoTransform(lrh.StabilizedPalmPosition));
+
+                            float delta = curDist - prevDist;
+                            delta *= 10;
+
+                            world.camera.zoomVelocity = -delta / (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                    }
+                }
+            }
+
+            #region gesture processing
+            List<VertexPositionColor> verts = new List<VertexPositionColor>();
+            foreach (Gesture g in frame.Gestures(leapInput.getFrame(10)))
+            {
+                switch (g.Type)
+                {
+                    case (Gesture.GestureType.TYPE_SWIPE):
+                        {
+                            break;
+                        }
+                    case (Gesture.GestureType.TYPE_CIRCLE):
+                        {
+
+                            break;
+                        }
+                    case (Gesture.GestureType.TYPE_SCREEN_TAP):
+                        {
+
+                            break;
+                        }
+                }
+            }
+            #endregion
+
+            MovableObject.Update(gameTime, frame);
+            world.Update(gameTime);
+        }
+
+        private void RenderGame()
+        {
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            shadedEffect.Parameters["lightDir"].SetValue(world.camera.rotation / -MathHelper.TwoPi);
+            world.Render(GraphicsDevice, shadedEffect);
+            handRenderer.Render(GraphicsDevice, handCamera, simpleEffect);
+            MovableObject.Draw(GraphicsDevice, world.camera, shadedEffect);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -300,15 +326,7 @@ namespace LeapMotion_Visualization
                 case (GameState.InGame):
                     {
                         GraphicsDevice.Clear(Color.Black);
-
-                        GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-                        shadedEffect.Parameters["lightDir"].SetValue(camera.rotation / -MathHelper.TwoPi);
-
-                        handRenderer.Render(GraphicsDevice, handCamera, simpleEffect);
-                        gestureRenderer.Render(GraphicsDevice, camera, simpleEffect);
-                        MovableObject.Draw(GraphicsDevice, camera, shadedEffect);
-                        miscRenderer.Render(GraphicsDevice, camera, shadedEffect);
+                        RenderGame();
 
                         break;
                     }
@@ -319,18 +337,20 @@ namespace LeapMotion_Visualization
                     }
                 case (GameState.MainMenu):
                     {
-                        Microsoft.Xna.Framework.Matrix projection = Microsoft.Xna.Framework.Matrix.CreateOrthographicOffCenter(0,
-                            GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 0, 1);
+                        GraphicsDevice.Clear(Color.DarkRed);
+
+                        Microsoft.Xna.Framework.Matrix projection = Microsoft.Xna.Framework.Matrix.CreateOrthographicOffCenter(0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 0, 1);
                         Microsoft.Xna.Framework.Matrix halfPixelOffset = Microsoft.Xna.Framework.Matrix.CreateTranslation(-0.5f, -0.5f, 0);
                         noiseEffect.Parameters["MatrixTransform"].SetValue(halfPixelOffset * projection);
                         noiseEffect.Parameters["depth"].SetValue(noiseDepth);
                         noiseEffect.Parameters["cursorPos"].SetValue(UI.Screen.screenFingerPos);
 
-                        GraphicsDevice.Clear(Color.DarkRed);
                         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend); 
                         noiseEffect.CurrentTechnique.Passes[0].Apply();
                         spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                         spriteBatch.End();
+
+                        titleRenderer.Render(GraphicsDevice, world.camera, shadedEffect);
                         break;
                     }
             }

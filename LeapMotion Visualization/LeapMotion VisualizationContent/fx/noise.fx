@@ -30,7 +30,7 @@ float noise3d(float3 x)
 
 float4 noiseshader(float2 coords : TEXCOORD0) : COLOR0
 {  
-   float r = (noise3d(float3(coords*5, (cursorPos.x+cursorPos.y) / 500))+1) / 2;
+   float r = (noise3d(float3(coords*5, depth/2))+1) / 2;
    return float4(0,0,0,r);
 }
 

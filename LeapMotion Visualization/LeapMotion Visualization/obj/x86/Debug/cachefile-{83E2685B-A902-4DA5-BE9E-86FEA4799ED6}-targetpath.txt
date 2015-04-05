@@ -1,7 +1,9 @@
 Content\fx\Simple.xnb
 Content\fonts\debug.xnb
-Content\fbx\Box.xnb
 Content\fbx\leapmotion.xnb
 Content\fx\Shaded.xnb
 Content\fonts\uifont.xnb
 Content\fx\noise.xnb
+Content\fbx\protogen.xnb
+Content\fbx\ComVirus.xnb
+Content\fbx\IcoVirus.xnb
