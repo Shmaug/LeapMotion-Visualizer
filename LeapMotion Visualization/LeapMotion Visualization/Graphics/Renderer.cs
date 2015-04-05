@@ -83,7 +83,7 @@ namespace LeapMotion_Visualization.Graphics
             {
                 Matrix world = Matrix.CreateScale(mobj.scale) * Matrix.CreateTranslation(mobj.position) * Matrix.CreateRotationX(mobj.rotation.X) * Matrix.CreateRotationY(mobj.rotation.Y) * Matrix.CreateRotationZ(mobj.rotation.Z);
                 effect.Parameters["VP"].SetValue(camera.view * camera.projection);
-
+                effect.Parameters["ambient"].SetValue(mobj.color.ToVector4());
                 Matrix[] transforms = new Matrix[mobj.model.Bones.Count];
                 mobj.model.CopyAbsoluteBoneTransformsTo(transforms);
                 foreach (ModelMesh mesh in mobj.model.Meshes)

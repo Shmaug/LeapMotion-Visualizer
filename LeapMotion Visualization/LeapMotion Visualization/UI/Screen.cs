@@ -83,7 +83,11 @@ namespace LeapMotion_Visualization.UI
                     }
                 }
                 Vector3 screenPos = Main.main.GraphicsDevice.Viewport.Project(furthest, Main.main.handCamera.projection, Main.main.handCamera.view, Matrix.Identity);
-                screenFingerPos = new Vector2(screenPos.X, screenPos.Y);
+                screenFingerPos = new Vector2((screenPos.X - Main.screenWidth / 2) * 2f + (Main.screenWidth / 2), screenPos.Y);
+                if (screenFingerPos.Y > Main.screenHeight * .5f)
+                {
+                    screenFingerPos.Y += (screenFingerPos.Y - Main.screenHeight / 2) * 1.5f;
+                }
             }
 
             int w = Main.screenWidth;
@@ -103,6 +107,7 @@ namespace LeapMotion_Visualization.UI
                             Rectangle r = new Rectangle((int)btn.Position.calc(sw, sh).X, (int)btn.Position.calc(sw, sh).Y, (int)btn.Size.calc(sw, sh).X + (int)btn.selOffset.X + (int)btn.selOffset.X, (int)btn.Size.calc(sw, sh).Y);
                             if (r.Contains(finger))
                             {
+                                btn.hover = true;
                                 btn.selOffset.X = MathHelper.Lerp(btn.selOffset.X, 50, .2f);
                                 if (currentPointer != null)
                                     if (currentPointer.TipVelocity.x > 200 && finger.X > r.Right - 40)
@@ -111,6 +116,7 @@ namespace LeapMotion_Visualization.UI
                             }
                             else
                             {
+                                btn.hover = false;
                                 btn.selOffset.X = MathHelper.Lerp(btn.selOffset.X, 0, .2f);
                             }
                         }
@@ -176,6 +182,10 @@ namespace LeapMotion_Visualization.UI
                         {
                             Button btn = e as Button;
                             ePos +=  btn.selOffset;
+                            if (btn.hover)
+                                batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X - 2, (int)ePos.Y - 2, (int)eSize.X + 2, (int)eSize.Y + 2), Color.White);
+                            else
+                                batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X, (int)ePos.Y, (int)eSize.X + 2, (int)eSize.Y + 2), Color.Black);
                             batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X, (int)ePos.Y, (int)eSize.X, (int)eSize.Y), screen.buttonColor);
                             Vector2 s = uiFont.MeasureString(e.text);
                             batch.DrawString(uiFont, e.text, ePos + eSize / 2, Color.White, 0f, s / 2, 1f, SpriteEffects.None, 0f);
@@ -190,6 +200,11 @@ namespace LeapMotion_Visualization.UI
                             int i = 0;
                             foreach (RadioListElement item in rl.items)
                             {
+                                if (item.hover)
+                                    batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X + (int)item.offset - 2, (int)ePos.Y + (int)eSize.Y * i + (i * 5) - 2, (int)eSize.X + 2, (int)eSize.Y + 2), !item.disabled ? screen.buttonColor : Color.White);
+                                else
+                                    batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X + (int)item.offset, (int)ePos.Y + (int)eSize.Y * i + (i * 5), (int)eSize.X + 2, (int)eSize.Y + 2), !item.disabled ? screen.buttonColor : Color.Black);
+
                                 batch.Draw(Main.main.pixelTexture, new Rectangle((int)ePos.X + (int)item.offset, (int)ePos.Y + (int)eSize.Y * i + (i * 5), (int)eSize.X, (int)eSize.Y), !item.disabled ? screen.buttonColor : Color.Gray);
                                 Vector2 s = uiFont.MeasureString(item.name);
                                 batch.DrawString(uiFont, item.name, ePos + eSize / 2 + new Vector2((int)item.offset, eSize.Y * i + (i * 5)), Color.White, 0f, s / 2, 1f, SpriteEffects.None, 0f);

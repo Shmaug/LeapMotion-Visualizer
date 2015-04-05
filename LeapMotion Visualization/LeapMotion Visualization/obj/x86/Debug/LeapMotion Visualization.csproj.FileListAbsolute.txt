@@ -21,3 +21,4 @@ C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\L
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\protogen.xnb
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\ComVirus.xnb
 C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\IcoVirus.xnb
+C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\cell.xnb

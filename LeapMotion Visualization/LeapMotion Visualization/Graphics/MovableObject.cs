@@ -17,6 +17,7 @@ namespace LeapMotion_Visualization.Graphics
         public Vector3 angularVelocity;
         public Vector3 velocity;
         public float scale;
+        public Color color;
         public Model model;
         Renderer r;
 
@@ -26,10 +27,16 @@ namespace LeapMotion_Visualization.Graphics
             this.rotation = Vector3.Zero;
             this.scale = scale;
             this.model = m;
+            this.color = Color.White;
             r = new Renderer();
             r.setObject(this);
 
             objects.Add(this);
+        }
+
+        public static void removeObject(MovableObject obj)
+        {
+            objects.Remove(obj);
         }
 
         public static void Update(GameTime g, Frame frame)
@@ -47,6 +54,7 @@ namespace LeapMotion_Visualization.Graphics
         {
             foreach (MovableObject o in objects)
             {
+                e.Parameters["alpha"].SetValue(1);
                 o.r.Render(d, c, e);
             }
         }

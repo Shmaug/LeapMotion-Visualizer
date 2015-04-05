@@ -46,7 +46,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Shaded.xnb</Output>
-      <Time>2015-04-04T18:48:01.3343369-07:00</Time>
+      <Time>2015-04-05T03:51:55.8174698-07:00</Time>
     </Item>
     <Item>
       <Source>fonts\uifont.spritefont</Source>
@@ -88,15 +88,39 @@
     </Item>
     <Item>
       <Source>fbx\ComVirus.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\ComVirus_0.xml</Output>
+      <Time>2015-04-04T23:35:24.684708-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fbx\IcoVirus.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\IcoVirus_0.xml</Output>
+      <Time>2015-04-04T20:19:19.560597-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fbx\cell.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\cell_0.xml</Output>
+      <Time>2015-04-04T21:32:20.0286323-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fbx\ComVirus.fbx</Source>
       <Name>fbx\ComVirus</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
+      <Parameters>
+        <Data Key="Scale">0.1</Data>
+      </Parameters>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\ComVirus.xnb</Output>
-      <Time>2015-04-04T20:18:56.2721168-07:00</Time>
+      <Time>2015-04-04T23:35:24.684708-07:00</Time>
       <Dependency>
         <Key>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\ComVirus_0.xml</Key>
-        <Value>2015-04-04T20:20:18.7614756-07:00</Value>
+        <Value>2015-04-04T23:35:27.187465-07:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -104,6 +128,9 @@
       <Name>fbx\IcoVirus</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
+      <Parameters>
+        <Data Key="Scale">0.1</Data>
+      </Parameters>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\IcoVirus.xnb</Output>
       <Time>2015-04-04T20:19:19.560597-07:00</Time>
@@ -113,18 +140,20 @@
       </Dependency>
     </Item>
     <Item>
-      <Source>fbx\ComVirus.fbx</Source>
+      <Source>fbx\cell.fbx</Source>
+      <Name>fbx\cell</Name>
       <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\ComVirus_0.xml</Output>
-      <Time>2015-04-04T20:18:56.2721168-07:00</Time>
-    </Item>
-    <Item>
-      <Source>fbx\IcoVirus.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\IcoVirus_0.xml</Output>
-      <Time>2015-04-04T20:19:19.560597-07:00</Time>
+      <Processor>ModelProcessor</Processor>
+      <Parameters>
+        <Data Key="Scale">10</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\cell.xnb</Output>
+      <Time>2015-04-04T21:32:20.0286323-07:00</Time>
+      <Dependency>
+        <Key>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\cell_0.xml</Key>
+        <Value>2015-04-04T21:34:06.2127495-07:00</Value>
+      </Dependency>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

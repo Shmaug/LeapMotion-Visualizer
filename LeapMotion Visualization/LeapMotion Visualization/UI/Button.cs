@@ -13,6 +13,7 @@ namespace LeapMotion_Visualization.UI
     {
         public Vector2 selOffset;
         public Click onClick;
+        public bool hover;
 
         public Button(UDim2 pos, UDim2 size, string txt)
         {

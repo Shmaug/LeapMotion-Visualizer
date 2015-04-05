@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LeapMotion_Visualization.Graphics;
 
 namespace LeapMotion_Visualization.Sim
 {
@@ -39,6 +40,14 @@ namespace LeapMotion_Visualization.Sim
         public Vector3 velocity;
         public Vector3 angularVelocity;
         public Vector3 rotation;
+        public Cell target;
+        public bool attached;
+        public bool awake;
+        public bool injecting;
+        public Vector3 offset;
+        public float timer;
+        public object data;
+        public bool cameraSubject;
 
         public Virus(VirusType type, VirusShape shape, EnterType enterType, ExitType exitType, Vector3 pos, World world)
         {
@@ -49,6 +58,17 @@ namespace LeapMotion_Visualization.Sim
             this.position = pos;
             this.model = (shape == VirusShape.Complex ? Main.main.comVirusModel : Main.main.icoVirusModel);
             world.viruses.Add(this);
+        }
+
+        public void reproduce()
+        {
+            MovableObject obj = new MovableObject(Main.main.cellModel, .075f);
+            obj.color = Color.Crimson;
+            obj.position = this.target.position;
+            this.data = obj;
+            this.target.virusTimer = 5f;
+            this.target.infected = true;
+            this.target.host = this;
         }
     }
 }

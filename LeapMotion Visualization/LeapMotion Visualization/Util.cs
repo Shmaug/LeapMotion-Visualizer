@@ -19,6 +19,12 @@ namespace LeapMotion_Visualization
         {
             return new Vector3(vector.x, vector.y, vector.z) / 50f;
         }
+        public static Vector3 toWorldHand(Vector vector, bool slide=true)
+        {
+            Vector3 vec = new Vector3(vector.x, vector.y - (slide ? (50f * Main.handOffset) : 0), vector.z) / 50f;
+            return Vector3.Transform(Vector3.Zero,
+                Microsoft.Xna.Framework.Matrix.CreateTranslation(vec) * Main.main.world.camera.rotationMatrix);
+        }
 
         public static float CubicPolate(float v0, float v1, float v2, float v3, float fracy)
         {

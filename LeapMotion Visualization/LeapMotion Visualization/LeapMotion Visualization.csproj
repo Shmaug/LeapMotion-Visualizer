@@ -86,9 +86,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Sim\Cell.cs" />
     <Compile Include="Sim\Virus.cs" />
     <Compile Include="Sim\World.cs" />
-    <Compile Include="Sim\Cell.cs" />
+    <Compile Include="Sim\Wall.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\RadioList.cs" />
     <Compile Include="UI\Screen.cs" />

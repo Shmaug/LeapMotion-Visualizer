@@ -57,7 +57,7 @@ namespace LeapMotion_Visualization.Graphics
                             Vector3 pos = Vector3.Transform(Vector3.Backward*zoom, r);
                             Vector3 up = Vector3.Transform(Vector3.Up, r);
 
-                            return Matrix.CreateLookAt(pos, Vector3.Zero, up);
+                            return Matrix.CreateLookAt(position + pos, position, up);
                         }
                     default:
                         {
@@ -129,9 +129,9 @@ namespace LeapMotion_Visualization.Graphics
                 zoom = 30;
                 zoomVelocity = 0;
             }
-            else if (zoom < 5)
+            else if (zoom < 1)
             {
-                zoom = 5;
+                zoom = 1;
                 zoomVelocity = 0;
             }
         }
