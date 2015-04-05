@@ -14,10 +14,12 @@ namespace LeapMotion_Visualization
 
         private VertexPositionColor[] lineVerticies;
 
-        private Model model;
-        private Matrix modelWorld = Matrix.Identity;
+        private MovableObject mobj;
 
-        public Renderer(GraphicsDevice device)
+        private Model model;
+        private Matrix modelWorld;
+
+        public Renderer()
         {
             verticies = new VertexPositionColor[0];
             indicies = new short[0];
@@ -40,31 +42,23 @@ namespace LeapMotion_Visualization
             lineVerticies = verts;
         }
 
-        public void setModel(Model m)
+        public void setObject(MovableObject m)
         {
-            model = m;
+            mobj = m;
         }
 
-        public void setModelWorld(Matrix world)
+        public void setModel(Model m, Matrix w)
         {
+            model = m;
+            modelWorld = w;
         }
 
         public void Render(GraphicsDevice device, Camera camera, Effect effect)
         {
-            if (effect is BasicEffect)
-            {
-                BasicEffect e = effect as BasicEffect;
-                e.World = camera.world;
-                e.Projection = camera.projection;
-                e.View = camera.view;
-                e.LightingEnabled = true;
-            }
-            else
-            {
-                effect.Parameters["WVP"].SetValue(camera.view * camera.projection * camera.world);
-            }
             if (verticies.Length != 0)
             {
+                effect.Parameters["VP"].SetValue(camera.view * camera.projection);
+                effect.Parameters["W"].SetValue(camera.world);
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
@@ -73,19 +67,53 @@ namespace LeapMotion_Visualization
             }
             if (lineVerticies.Length != 0)
             {
-                Debug.addWatch(lineVerticies.Length, "drawing line verts");
+                effect.Parameters["VP"].SetValue(camera.view * camera.projection);
+                effect.Parameters["W"].SetValue(camera.world);
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                     device.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, lineVerticies, 0, lineVerticies.Length / 2);
                 }
             }
+            if (mobj != null)
+            {
+                Matrix world = Matrix.CreateScale(mobj.scale) * Matrix.CreateTranslation(mobj.position) * Matrix.CreateRotationX(mobj.rotation.X) * Matrix.CreateRotationY(mobj.rotation.Y) * Matrix.CreateRotationZ(mobj.rotation.Z);
+                effect.Parameters["VP"].SetValue(camera.view * camera.projection);
+
+                Matrix[] transforms = new Matrix[mobj.model.Bones.Count];
+                mobj.model.CopyAbsoluteBoneTransformsTo(transforms);
+                foreach (ModelMesh mesh in mobj.model.Meshes)
+                {
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
+                    {
+                        effect.Parameters["W"].SetValue(transforms[mesh.ParentBone.Index] * world);
+                        meshpart.Effect = effect;
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            pass.Apply();
+                            mesh.Draw();
+                        }
+                    }
+                }
+            }
             if (model != null)
             {
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                effect.Parameters["VP"].SetValue(camera.view * camera.projection);
+
+                Matrix[] transforms = new Matrix[model.Bones.Count];
+                model.CopyAbsoluteBoneTransformsTo(transforms);
+                foreach (ModelMesh mesh in model.Meshes)
                 {
-                    pass.Apply();
-                    model.Draw(modelWorld, camera.view, camera.projection);
+                    foreach (ModelMeshPart meshpart in mesh.MeshParts)
+                    {
+                        effect.Parameters["W"].SetValue(transforms[mesh.ParentBone.Index] * modelWorld);
+                        meshpart.Effect = effect;
+                        foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                        {
+                            pass.Apply();
+                            mesh.Draw();
+                        }
+                    }
                 }
             }
         }
