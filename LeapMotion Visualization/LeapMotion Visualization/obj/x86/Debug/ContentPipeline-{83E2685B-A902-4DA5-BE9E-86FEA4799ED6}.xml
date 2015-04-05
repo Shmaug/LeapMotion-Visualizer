@@ -8,7 +8,7 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Simple.xnb</Output>
-      <Time>2015-04-04T09:04:11.3735011-07:00</Time>
+      <Time>2015-04-04T17:57:31.6191835-07:00</Time>
     </Item>
     <Item>
       <Source>fonts\debug.spritefont</Source>
@@ -40,26 +40,6 @@
       <Time>2015-04-04T06:45:00.3131476-07:00</Time>
     </Item>
     <Item>
-      <Source>fbx\Ring.fbx</Source>
-      <Name>fbx\Ring</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fbx\Ring.xnb</Output>
-      <Time>2015-04-04T09:15:03.0773621-07:00</Time>
-      <Dependency>
-        <Key>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\Ring_0.xml</Key>
-        <Value>2015-04-04T09:15:04.5834252-07:00</Value>
-      </Dependency>
-    </Item>
-    <Item>
-      <Source>fbx\Ring.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\obj\x86\Debug\fbx\Ring_0.xml</Output>
-      <Time>2015-04-04T09:15:03.0773621-07:00</Time>
-    </Item>
-    <Item>
       <Source>fbx\leapmotion.fbx</Source>
       <Name>fbx\leapmotion</Name>
       <Importer>FbxImporter</Importer>
@@ -86,7 +66,25 @@
       <Processor>EffectProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\Shaded.xnb</Output>
-      <Time>2015-04-04T10:49:10.7530549-07:00</Time>
+      <Time>2015-04-04T17:57:28.0566492-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fonts\uifont.spritefont</Source>
+      <Name>fonts\uifont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fonts\uifont.xnb</Output>
+      <Time>2015-04-04T13:31:57.7922705-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fx\noise.fx</Source>
+      <Name>fx\noise</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Kevin\Documents\GitHub\LeapMotion-Visualizer\LeapMotion Visualization\LeapMotion Visualization\bin\x86\Debug\Content\fx\noise.xnb</Output>
+      <Time>2015-04-04T18:30:40.5057222-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

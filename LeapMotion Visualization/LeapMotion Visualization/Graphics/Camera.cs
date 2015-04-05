@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LeapMotion_Visualization
+namespace LeapMotion_Visualization.Graphics
 {
     public enum CameraMode
     {

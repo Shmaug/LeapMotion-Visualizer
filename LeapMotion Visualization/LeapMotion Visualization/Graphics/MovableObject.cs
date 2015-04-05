@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Leap;
 
-namespace LeapMotion_Visualization
+namespace LeapMotion_Visualization.Graphics
 {
     class MovableObject
     {

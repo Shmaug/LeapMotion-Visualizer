@@ -1,6 +1,7 @@
 Content\fx\Simple.xnb
 Content\fonts\debug.xnb
 Content\fbx\Box.xnb
-Content\fbx\Ring.xnb
 Content\fbx\leapmotion.xnb
 Content\fx\Shaded.xnb
+Content\fonts\uifont.xnb
+Content\fx\noise.xnb
