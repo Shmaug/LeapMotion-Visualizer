@@ -51,13 +51,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fbx\Ring.fbx">
-      <Name>Ring</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="fbx\leapmotion.fbx">
       <Name>leapmotion</Name>
       <Importer>FbxImporter</Importer>
@@ -67,6 +60,20 @@
   <ItemGroup>
     <Compile Include="fx\Shaded.fx">
       <Name>Shaded</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fonts\uifont.spritefont">
+      <Name>uifont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fx\noise.fx">
+      <Name>noise</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>

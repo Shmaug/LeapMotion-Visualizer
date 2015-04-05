@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using LeapMotion_Visualization.Graphics;
 using Leap;
 
 namespace LeapMotion_Visualization
@@ -12,7 +13,7 @@ namespace LeapMotion_Visualization
     {
         public static Vector3 toWorld(Vector vector, bool slideDown=true)
         {
-            return Vector3.Transform(new Vector3(vector.x, vector.y - (slideDown ? 200 : 0), vector.z) / 50f, Main.main.camera.rotationMatrix);
+            return Vector3.Transform(new Vector3(vector.x, vector.y - (slideDown ? (50f * Main.handOffset) : 0), vector.z) / 50f, Main.main.camera.rotationMatrix);
         }
         public static Vector3 toWorldNoTransform(Vector vector)
         {
@@ -42,10 +43,10 @@ namespace LeapMotion_Visualization
             foreach (Hand hand in frame.Hands)
             {
                 Arm arm = hand.Arm;
-                Vector3 elbow = Util.toWorldNoTransform(arm.ElbowPosition);
-                Vector3 armwrist = Util.toWorldNoTransform(arm.WristPosition);
-                Vector3 palm = Util.toWorldNoTransform(hand.PalmPosition);
-                Vector3 wrist = Util.toWorldNoTransform(hand.WristPosition);
+                Vector3 elbow = Util.toWorldNoTransform(arm.ElbowPosition) - new Vector3(0, Main.handOffset, 0);
+                Vector3 armwrist = Util.toWorldNoTransform(arm.WristPosition) - new Vector3(0, Main.handOffset, 0);
+                Vector3 palm = Util.toWorldNoTransform(hand.PalmPosition) - new Vector3(0, Main.handOffset, 0);
+                Vector3 wrist = Util.toWorldNoTransform(hand.WristPosition) - new Vector3(0, Main.handOffset, 0);
 
                 v.Add(new VertexPositionColor(elbow, Color.Yellow));
                 v.Add(new VertexPositionColor(armwrist, Color.Blue));
@@ -62,10 +63,10 @@ namespace LeapMotion_Visualization
                     Vector3 dip = Util.toWorldNoTransform(finger.JointPosition(Finger.FingerJoint.JOINT_DIP));
                     Vector3 tip = Util.toWorldNoTransform(finger.JointPosition(Finger.FingerJoint.JOINT_TIP));
 
-                    VertexPositionColor p1 = new VertexPositionColor(mcp, Color.Red);
-                    VertexPositionColor p2 = new VertexPositionColor(pip, Color.Blue);
-                    VertexPositionColor p3 = new VertexPositionColor(dip, Color.Green);
-                    VertexPositionColor p4 = new VertexPositionColor(tip, Color.Yellow);
+                    VertexPositionColor p1 = new VertexPositionColor(mcp - new Vector3(0, Main.handOffset, 0), Color.Red);
+                    VertexPositionColor p2 = new VertexPositionColor(pip - new Vector3(0, Main.handOffset, 0), Color.Blue);
+                    VertexPositionColor p3 = new VertexPositionColor(dip - new Vector3(0, Main.handOffset, 0), Color.Green);
+                    VertexPositionColor p4 = new VertexPositionColor(tip - new Vector3(0, Main.handOffset, 0), Color.Yellow);
 
                     if (lastmcp != Vector3.Zero)
                     {
@@ -83,7 +84,7 @@ namespace LeapMotion_Visualization
                     v.Add(p3);
                     v.Add(p4);
 
-                    lastmcp = mcp;
+                    lastmcp = mcp - new Vector3(0, Main.handOffset, 0);
                 }
             }
             return v.ToArray();
