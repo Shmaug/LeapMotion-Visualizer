@@ -85,6 +85,7 @@ namespace LeapMotion_Visualization.Sim
             {   
                 // update viruses, make camera center on avgs
                 Vector3 camPos = Vector3.Zero;
+                List<Virus> rq = new List<Virus>();
                 foreach (Virus v in viruses)
                 {
                     if (v.awake)
@@ -93,6 +94,9 @@ namespace LeapMotion_Visualization.Sim
                         {
                             if (v.attached)
                             {
+                                if (!cells.Contains(v.target))
+                                    rq.Add(v);
+
                                 if (v.cameraSubject)
                                 {
                                     worldFade -= (float)gameTime.ElapsedGameTime.TotalSeconds / 2f;
@@ -269,6 +273,8 @@ namespace LeapMotion_Visualization.Sim
                     }
                     camPos += v.position;
                 }
+                foreach (Virus a in rq)
+                    viruses.Remove(a);
                 camPos /= viruses.Count;
                 camera.position = Vector3.Lerp(camera.position, camPos, .2f);
             }
